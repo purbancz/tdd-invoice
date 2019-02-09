@@ -53,10 +53,6 @@ public class Invoice {
 	}
 
 	public BigDecimal getTotal() {
-		BigDecimal tot = BigDecimal.ZERO;
-		for (Product p : this.products) {
-			tot = tot.add(p.getPriceWithTax());
-		}
-		return tot;
+		return getSubtotal().add(getTax());
 	}
 }
