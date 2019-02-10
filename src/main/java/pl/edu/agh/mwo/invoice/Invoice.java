@@ -9,16 +9,14 @@ import pl.edu.agh.mwo.invoice.product.Product;
 public class Invoice {
 	private Map<Product, Integer> products = new HashMap<Product, Integer>();
 	private int invoiceNum;
+	private static Integer nextNumber = 1;
 
 	public int getInvoiceNum() {
 		return invoiceNum;
 	}
 
-	public void setInvoiceNum(int invoiceNum) {
-		if (invoiceNum < 1) {
-			throw new IllegalArgumentException();
-		}
-		this.invoiceNum = invoiceNum;
+	public Invoice() {
+		this.invoiceNum = nextNumber++;
 	}
 
 	public void addProduct(Product product) {

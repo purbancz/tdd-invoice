@@ -108,24 +108,49 @@ public class InvoiceTest {
 	
 	//tutaj
 	
+//	@Test
+//	public void testGetInvoiceNumber() {
+//		invoice.setInvoiceNum(12);
+//		Assert.assertEquals(invoice.getInvoiceNum(), 12);
+//	}
+	
+//	@Test(expected = IllegalArgumentException.class)
+//	public void testInvoiceNumLessThanOne() {
+//		invoice.setInvoiceNum(0);
+//	}
+	
 	@Test
-	public void testGetInvoiceNumber() {
-		invoice.setInvoiceNum(12);
-		Assert.assertEquals(invoice.getInvoiceNum(), 12);
+	public void testInvoiceHasNumber() {
+		Integer number = invoice.getInvoiceNum();
+		Assert.assertNotNull(number);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvoiceNumLessThanOne() {
-		invoice.setInvoiceNum(0);
+	@Test
+	public void testInvoicesHasDifferentNumber() {
+		Integer number = invoice.getInvoiceNum();
+		Integer number1 = new Invoice().getInvoiceNum();
+		Assert.assertNotEquals(number,number1);
+	}
+	
+	@Test
+	public void testInvoiceHasSameNumber() {
+		Integer number = invoice.getInvoiceNum();
+		Integer number1 = invoice.getInvoiceNum();
+		Assert.assertEquals(number,number1);
+	}
+	
+	@Test
+	public void testInvoicesHasConseqNumber() {
+		Integer number = invoice.getInvoiceNum();
+		Integer number1 = new Invoice().getInvoiceNum();
+		Assert.assertNotEquals(number, Matchers.lessThan(number1));
 	}
 	
 	@Test
 	public void testPrintInvoice() {
-		invoice.setInvoiceNum(12);
 		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
 		invoice.addProduct(new DairyProduct("Pies", new BigDecimal("10")), 3);
-		invoice.addProduct(new TaxFreeProduct("Maskotki", new BigDecimal("200")));
-		Assert.assertEquals(invoice.printInvoice(), );
+		invoice.addProduct(new TaxFreeProduct("Mysz", new BigDecimal("200")));
 	}
 	
 }
