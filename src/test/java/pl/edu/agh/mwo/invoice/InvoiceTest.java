@@ -35,7 +35,8 @@ public class InvoiceTest {
 	public void testEmptyInvoiceHasEmptyTotal() {
 		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getGrossTotal()));
 	}
-
+	
+	
 	@Test
 	public void testInvoiceHasTheSameSubtotalAndTotalIfTaxIsZero() {
 		Product taxFreeProduct = new TaxFreeProduct("Warzywa", new BigDecimal("199.99"));
@@ -104,4 +105,27 @@ public class InvoiceTest {
 	public void testInvoiceWithNegativeQuantity() {
 		invoice.addProduct(new DairyProduct("Zsiadle mleko", new BigDecimal("5.55")), -1);
 	}
+	
+	//tutaj
+	
+	@Test
+	public void testGetInvoiceNumber() {
+		invoice.setInvoiceNum(12);
+		Assert.assertEquals(invoice.getInvoiceNum(), 12);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testInvoiceNumLessThanOne() {
+		invoice.setInvoiceNum(0);
+	}
+	
+	@Test
+	public void testPrintInvoice() {
+		invoice.setInvoiceNum(12);
+		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
+		invoice.addProduct(new DairyProduct("Pies", new BigDecimal("10")), 3);
+		invoice.addProduct(new TaxFreeProduct("Maskotki", new BigDecimal("200")));
+		Assert.assertEquals(invoice.printInvoice(), );
+	}
+	
 }
