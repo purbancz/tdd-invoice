@@ -149,13 +149,42 @@ public class InvoiceTest {
 
 	@Test
 	public void testPrintInvoiceContainsNumber() {
-		String printedIvoice = invoice.getAsText();
-		String number = invoice.getInvoiceNum().toString();
+		String printedIvoice = invoice.getAsText(invoice);
+		String number = String.valueOf(invoice.getInvoiceNum());
 //		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
 //		invoice.addProduct(new DairyProduct("Pies", new BigDecimal("10")), 3);
 //		invoice.addProduct(new TaxFreeProduct("Mysz", new BigDecimal("200")));
-		Assert.assertThat(printedIvoice, Matchers.containsString("nr " + number))
+		Assert.assertThat(printedIvoice, Matchers.containsString("nr " + number));
 //		
 	}
+	
+	@Test
+	public void testPrintInvoiceContainsProductDetails() {
+		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
+		String printedIvoice = invoice.getAsText(invoice);
+		Assert.assertThat(printedIvoice, Matchers.containsString("Kot 2 5"));
+//		
+	}
+	
+	@Test
+	public void testPrintInvoiceContainsManyProductDetails() {
+		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
+		invoice.addProduct(new TaxFreeProduct("Pies", new BigDecimal("7")), 3);
+		String printedIvoice = invoice.getAsText(invoice);
+		Assert.assertThat(printedIvoice, Matchers.containsString("Kot 2 5\nPies 3 7"));
+//		
+	}
+	
+	@Test
+	public void testPrintInvoiceContainsSameProductTwice() {
+		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")));
+		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")));
+		String printedIvoice = invoice.getAsText(invoice);
+		Assert.assertThat(printedIvoice, Matchers.containsString("Kot 2 5"));
+//		
+	}
+	
+	
+
 
 }

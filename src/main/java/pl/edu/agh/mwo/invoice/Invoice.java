@@ -1,13 +1,13 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-	private Map<Product, Integer> products = new HashMap<Product, Integer>();
+	private Map<Product, Integer> products = new LinkedHashMap<Product, Integer>();
 	private int invoiceNum;
 	private static Integer nextNumber = 1;
 
@@ -27,7 +27,13 @@ public class Invoice {
 		if (product == null || quantity <= 0) {
 			throw new IllegalArgumentException();
 		}
-		products.put(product, quantity);
+		if (this.products.containsKey(product)) {
+			Integer newQantitiy = this.products.get(product) + quantity;
+			this.products.put(product, newQantitiy);
+		}
+		else {
+			products.put(product, quantity);
+		}
 	}
 
 	public BigDecimal getNetTotal() {
@@ -52,7 +58,21 @@ public class Invoice {
 		return totalGross;
 	}
 
-	public String getAsText() {
-		return "nr " + this.invoiceNum;
+	public String getAsText(Invoice invoice) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("nr " + this.invoiceNum);
+		for (Product p : invoice.products.keySet()) {
+			sb.append("\n");
+			sb.append(p.getName());
+			sb.append(" ");
+			sb.append(products.get(p).toString());
+			sb.append(" ");
+			sb.append(p.getPrice());
+			
+		}
+		sb.append("\nLiczba pozycji: ");
+		sb.append(this.products.size());
+		
+		return sb.toString();
 	}
 }
