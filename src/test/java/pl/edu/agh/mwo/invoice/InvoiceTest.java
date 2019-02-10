@@ -35,8 +35,7 @@ public class InvoiceTest {
 	public void testEmptyInvoiceHasEmptyTotal() {
 		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getGrossTotal()));
 	}
-	
-	
+
 	@Test
 	public void testInvoiceHasTheSameSubtotalAndTotalIfTaxIsZero() {
 		Product taxFreeProduct = new TaxFreeProduct("Warzywa", new BigDecimal("199.99"));
@@ -105,52 +104,58 @@ public class InvoiceTest {
 	public void testInvoiceWithNegativeQuantity() {
 		invoice.addProduct(new DairyProduct("Zsiadle mleko", new BigDecimal("5.55")), -1);
 	}
-	
-	//tutaj
-	
-//	@Test
-//	public void testGetInvoiceNumber() {
-//		invoice.setInvoiceNum(12);
-//		Assert.assertEquals(invoice.getInvoiceNum(), 12);
-//	}
-	
-//	@Test(expected = IllegalArgumentException.class)
-//	public void testInvoiceNumLessThanOne() {
-//		invoice.setInvoiceNum(0);
-//	}
-	
+
+	// tutaj
+
+	// @Test
+	// public void testGetInvoiceNumber() {
+	// invoice.setInvoiceNum(12);
+	// Assert.assertEquals(invoice.getInvoiceNum(), 12);
+	// }
+
+	// @Test(expected = IllegalArgumentException.class)
+	// public void testInvoiceNumLessThanOne() {
+	// invoice.setInvoiceNum(0);
+	// }
+
 	@Test
 	public void testInvoiceHasNumber() {
 		Integer number = invoice.getInvoiceNum();
 		Assert.assertNotNull(number);
 	}
-	
+
 	@Test
 	public void testInvoicesHasDifferentNumber() {
 		Integer number = invoice.getInvoiceNum();
 		Integer number1 = new Invoice().getInvoiceNum();
-		Assert.assertNotEquals(number,number1);
+		Assert.assertNotEquals(number, number1);
 	}
-	
+
 	@Test
 	public void testInvoiceHasSameNumber() {
 		Integer number = invoice.getInvoiceNum();
 		Integer number1 = invoice.getInvoiceNum();
-		Assert.assertEquals(number,number1);
+		Assert.assertEquals(number, number1);
 	}
-	
+
 	@Test
 	public void testInvoicesHasConseqNumber() {
-		Integer number = invoice.getInvoiceNum();
-		Integer number1 = new Invoice().getInvoiceNum();
-		Assert.assertNotEquals(number, Matchers.lessThan(number1));
+		for (int i = 0; i < 100; i++) {
+			Integer number = invoice.getInvoiceNum();
+			Integer number1 = new Invoice().getInvoiceNum();
+			Assert.assertNotEquals(number, Matchers.lessThan(number1));
+		}
 	}
-	
+
 	@Test
-	public void testPrintInvoice() {
-		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
-		invoice.addProduct(new DairyProduct("Pies", new BigDecimal("10")), 3);
-		invoice.addProduct(new TaxFreeProduct("Mysz", new BigDecimal("200")));
+	public void testPrintInvoiceContainsNumber() {
+		String printedIvoice = invoice.getAsText();
+		String number = invoice.getInvoiceNum().toString();
+//		invoice.addProduct(new TaxFreeProduct("Kot", new BigDecimal("5")), 2);
+//		invoice.addProduct(new DairyProduct("Pies", new BigDecimal("10")), 3);
+//		invoice.addProduct(new TaxFreeProduct("Mysz", new BigDecimal("200")));
+		Assert.assertThat(printedIvoice, Matchers.containsString("nr " + number))
+//		
 	}
-	
+
 }
