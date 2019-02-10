@@ -51,4 +51,8 @@ public class Invoice {
 		}
 		return totalGross;
 	}
+
+	public String getAsText() {
+		return "nr " + this.invoiceNum;
+	}
 }
