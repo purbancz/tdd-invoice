@@ -23,17 +23,17 @@ public class InvoiceTest {
 
 	@Test
 	public void testEmptyInvoiceHasEmptySubtotal() {
-		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getSubtotal()));
+		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getNetTotal()));
 	}
 
 	@Test
 	public void testEmptyInvoiceHasEmptyTaxAmount() {
-		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getTax()));
+		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getTaxTotal()));
 	}
 
 	@Test
 	public void testEmptyInvoiceHasEmptyTotal() {
-		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getTotal()));
+		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getGrossTotal()));
 	}
 
 	@Test
